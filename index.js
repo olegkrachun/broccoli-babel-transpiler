@@ -49,7 +49,7 @@ module.exports = class Babel extends Filter {
       this.helperWhiteList = this.options.helperWhiteList;
     }
 
-    let { isParallelizable, errors } = transformIsParallelizable(options.babel);
+    let { isParallelizable, errors } = transformIsParallelizable(options);
 
     heimdall.statsFor('babel').isParallelizable = isParallelizable;
 
