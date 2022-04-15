@@ -200,14 +200,14 @@ describe('options', function() {
     expect(transpilerOptions).to.eql(undefined);
     babel.processString('path', 'relativePath');
 
-    expect(transpilerOptions.babel.foo).to.eql(1);
-    expect(transpilerOptions.babel.bar.baz).to.eql(1);
+    expect(transpileroptions.foo).to.eql(1);
+    expect(transpileroptions.bar.baz).to.eql(1);
 
-    options.babel.foo = 2;
-    options.babel.bar.baz = 2;
+    options.foo = 2;
+    options.bar.baz = 2;
 
-    expect(transpilerOptions.babel.foo).to.eql(1);
-    expect(transpilerOptions.babel.bar.baz).to.eql(1);
+    expect(transpileroptions.foo).to.eql(1);
+    expect(transpileroptions.bar.baz).to.eql(1);
   });
 
   it('correct fileName, sourceMapTarget, sourceFileName', function() {
@@ -221,14 +221,14 @@ describe('options', function() {
     expect(transpilerOptions).to.eql(undefined);
     babel.processString('path', 'relativePath');
 
-    expect(transpilerOptions.babel.moduleId).to.eql(undefined);
-    expect(transpilerOptions.babel.filename).to.eql('relativePath');
-    expect(transpilerOptions.babel.sourceFileName).to.eql('relativePath');
+    expect(transpileroptions.moduleId).to.eql(undefined);
+    expect(transpileroptions.filename).to.eql('relativePath');
+    expect(transpileroptions.sourceFileName).to.eql('relativePath');
   });
 
-  it('includes moduleId if options.babel.moduleId is true', function() {
-    babel.options.babel.moduleId = true;
-    babel.options.babel.filename = 'relativePath.es6';
+  it('includes moduleId if options.moduleId is true', function() {
+    babel.options.moduleId = true;
+    babel.options.filename = 'relativePath.es6';
 
     let transpilerOptions;
 
@@ -240,7 +240,7 @@ describe('options', function() {
     expect(transpilerOptions).to.eql(undefined);
     babel.processString('path', 'relativePath');
 
-    expect(transpilerOptions.babel.moduleId).to.eql('relativePath');
+    expect(transpileroptions.moduleId).to.eql('relativePath');
   });
 
   it('does not propagate filterExtensions', function () {
@@ -723,7 +723,7 @@ describe('when options change', function() {
   });
 
   it('includes object plugins cacheKey result in hash', function() {
-    options.babel.plugins = [
+    options.plugins = [
       { cacheKey: function() { return 'hi!'; }}
     ];
     options.console = fakeConsole;
@@ -736,7 +736,7 @@ describe('when options change', function() {
     function fakePlugin() {}
     fakePlugin.cacheKey = function() { return 'Hi!'; };
 
-    options.babel.plugins = [
+    options.plugins = [
       fakePlugin
     ];
     options.console = fakeConsole;
@@ -746,7 +746,7 @@ describe('when options change', function() {
   });
 
   it('includes string plugins in hash calculation', function() {
-    options.babel.plugins = [
+    options.plugins = [
       'foo'
     ];
     options.console = fakeConsole;
@@ -757,7 +757,7 @@ describe('when options change', function() {
 
   it('includes plugins specified with options in hash calculation when cacheable', function() {
     let pluginOptions = { foo: 'bar' };
-    options.babel.plugins = [
+    options.plugins = [
       ['foo', pluginOptions]
     ];
     options.console = fakeConsole;
@@ -780,7 +780,7 @@ describe('when options change', function() {
   it('invalidates plugins specified with options when not-cacheable', function() {
     function thing() { }
     let pluginOptions = { foo: 'bar', thing: thing };
-    options.babel.plugins = [
+    options.plugins = [
       ['foo', pluginOptions]
     ];
     options.console = fakeConsole;
@@ -798,7 +798,7 @@ describe('when options change', function() {
     function thing() { }
     thing.baseDir = function() { return dir; };
     let pluginOptions = { foo: 'bar', thing: thing };
-    options.babel.plugins = [
+    options.plugins = [
       ['foo', pluginOptions]
     ];
 
@@ -823,7 +823,7 @@ describe('when options change', function() {
     let dir = path.join(inputPath, 'plugin-a');
     let pluginObject = { foo: 'foo' };
     pluginObject.baseDir = function() { return dir; };
-    options.babel.plugins = [ pluginObject ];
+    options.plugins = [ pluginObject ];
 
     options.console = fakeConsole;
     let first = new Babel('foo', options);
@@ -849,7 +849,7 @@ describe('when options change', function() {
     let pluginObject = { foo: 'foo' };
     pluginObject.baseDir = function() { return dir; };
     pluginObject.cacheKey = function() { return key; };
-    options.babel.plugins = [ pluginObject ];
+    options.plugins = [ pluginObject ];
 
     options.console = fakeConsole;
     let first = new Babel('foo', options);
@@ -876,7 +876,7 @@ describe('when options change', function() {
     plugin.baseDir = function() {
       return dir;
     };
-    options.babel.plugins = [ plugin ];
+    options.plugins = [ plugin ];
 
     options.console = fakeConsole;
     let first = new Babel('foo', options);
@@ -893,7 +893,7 @@ describe('when options change', function() {
   it('a plugin without a baseDir invalidates the cache every time', function() {
     function plugin() {}
     plugin.toString = function() { return '<derp plugin>'; };
-    options.babel.plugins = [ plugin ];
+    options.plugins = [ plugin ];
 
     options.console = fakeConsole;
     let babel1 = new Babel('foo', options);

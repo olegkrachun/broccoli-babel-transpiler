@@ -90,13 +90,13 @@ module.exports = class Babel extends Filter {
 
     let options = this.copyOptions();
 
-    options.babel.filename = options.babel.sourceFileName = relativePath;
+    options.filename = options.sourceFileName = relativePath;
 
-    if (options.babel.moduleId === true) {
-      options.babel.moduleId = replaceExtensions(this.extensionsRegex, options.babel.filename);
+    if (options.moduleId === true) {
+      options.moduleId = replaceExtensions(this.extensionsRegex, options.filename);
     }
 
-    let optionsObj = { babel: options.babel, cacheKey: this._optionsHash};
+    let optionsObj = { babel: options, cacheKey: this._optionsHash};
     return this.transform(string, optionsObj)
       .then(transpiled => {
         if (this.helperWhiteList) {
